@@ -1,6 +1,113 @@
-To list all resource groups that do not contain any resources in an Azure subscription using PowerShell, you can use the following script:
+Powershell list all resources inside resource groups
 
-```powershell
+# Install Azure PowerShell module if not already installed
+# Install-Module -Name Az
+
+# Import the Azure PowerShell module
+Import-Module Az
+
+# Connect to your Azure account
+Connect-AzAccount
+
+# Specify the name of the resource group
+$resourceGroupName = "your-resource-group-name"
+
+# Get all resources within the specified resource group
+$resources = Get-AzResource -ResourceGroupName $resourceGroupName
+
+# Loop through the resources and display their details
+foreach ($resource in $resources) {
+    $resourceName = $resource.Name
+    $resourceType = $resource.ResourceType
+    $resourceLocation = $resource.Location
+
+    Write-Host "Resource Name: $resourceName"
+    Write-Host "Resource Type: $resourceType"
+    Write-Host "Resource Location: $resourceLocation"
+    Write-Host "-------------------"
+}
+
+
+
+
+
+Powershell list all resources inside resource groups for app subscriptions
+
+
+
+
+# Install Azure PowerShell module if not already installed
+# Install-Module -Name Az
+
+# Import the Azure PowerShell module
+Import-Module Az
+
+# Connect to your Azure account
+Connect-AzAccount
+
+# Specify the name or ID of the Azure subscription
+$subscriptionId = "your-subscription-id"
+
+# Get all resource groups within the specified subscription
+$resourceGroups = Get-AzResourceGroup -SubscriptionId $subscriptionId
+
+# Loop through each resource group
+foreach ($resourceGroup in $resourceGroups) {
+    $resourceGroupName = $resourceGroup.ResourceGroupName
+
+    Write-Host "Resource Group: $resourceGroupName"
+
+    # Get all resources within the current resource group
+    $resources = Get-AzResource -ResourceGroupName $resourceGroupName
+
+    # Loop through the resources and display their details
+    foreach ($resource in $resources) {
+        $resourceName = $resource.Name
+        $resourceType = $resource.ResourceType
+        $resourceLocation = $resource.Location
+
+        Write-Host "Resource Name: $resourceName"
+        Write-Host "Resource Type: $resourceType"
+        Write-Host "Resource Location: $resourceLocation"
+        Write-Host "-------------------"
+    }
+}
+
+
+
+
+
+list resources groups in subscription
+
+
+# Install Azure PowerShell module if not already installed
+# Install-Module -Name Az
+
+# Import the Azure PowerShell module
+Import-Module Az
+
+# Connect to your Azure account
+Connect-AzAccount
+
+# Specify the name or ID of the Azure subscription
+$subscriptionId = "your-subscription-id"
+
+# Set the context to the target subscription
+Set-AzContext -SubscriptionId $subscriptionId
+
+# Get all resource groups within the subscription
+$resourceGroups = Get-AzResourceGroup
+
+# Loop through the resource groups and display their names
+foreach ($resourceGroup in $resourceGroups) {
+    $resourceGroupName = $resourceGroup.ResourceGroupName
+    Write-Host "Resource Group: $resourceGroupName"
+}
+
+
+
+all resource groups without any resources inside it
+
 # Install Azure PowerShell module if not already installed
 # Install-Module -Name Az
 
@@ -31,8 +138,4 @@ foreach ($resourceGroup in $resourceGroups) {
         Write-Host "Resource Group without resources: $resourceGroupName"
     }
 }
-```
 
-Remember to replace `"your-subscription-id"` with the actual ID or name of your Azure subscription. The script connects to your Azure account, sets the context to the specified subscription, and retrieves all resource groups within that subscription. It then iterates over the resource groups and checks if they have any resources. If a resource group has zero resources, it is displayed in the output.
-
-Note that you may need to uncomment the `Install-Module` line and run it if you haven't installed the Azure PowerShell module yet.
